@@ -5,12 +5,20 @@
   "dependencies": {
     "react": "^16.5.2",
     "react-dom": "^16.5.2",
-    "react-scripts": "2.0.4"
+    "react-redux": "^5.0.7",
+    "react-router-dom": "^4.3.1",
+    "react-scripts": "2.0.4",
+    "redux": "^4.0.0",
+    "redux-thunk": "^2.3.0"
   },
   "scripts": {
+    "precommit": "lint-staged",
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
+    "test:lint:js": "eslint --ext=js --ext=jsx .",
+    "test:lint:scss": "stylelint --config=.stylelintrc '**/*.scss'",
+    "test:lint": "run-s test:lint:**",
     "eject": "react-scripts eject"
   },
   "eslintConfig": {
@@ -23,6 +31,30 @@
     "not op_mini all"
   ],
   "devDependencies": {
-    "flow-bin": "^0.82.0"
+    "enzyme": "^3.6.0",
+    "eslint": "^5.6.1",
+    "eslint-config-airbnb": "^17.1.0",
+    "eslint-plugin-import": "^2.14.0",
+    "eslint-plugin-jsx-a11y": "^6.1.1",
+    "eslint-plugin-react": "^7.11.1",
+    "flow-bin": "^0.82.0",
+    "husky": "^1.1.0",
+    "lint-staged": "^7.3.0",
+    "prettier": "^1.14.3",
+    "prop-types": "^15.6.2",
+    "stylelint": "^9.6.0",
+    "stylelint-config-standard": "^18.2.0"
+  },
+  "lint-staged": {
+    "src/**/*.{js,jsx,json}": [
+      "eslint --fix",
+      "prettier --config .prettierrc --write",
+      "git add"
+    ],
+    "src/**/*.{scss,css}":[
+      "stylelint --config=.stylelintrc --fix",
+      "prettier --config .prettierrc --write",
+      "git add"
+    ]
   }
 }
