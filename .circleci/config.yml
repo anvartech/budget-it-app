@@ -29,9 +29,7 @@ jobs:
       - run:
           name: "JavaScript Linter"
           command: yarn test:lint:js --format junit -o reports/junit/js-lint-results.xml
-      - run:
-          name: "Style Linter"
-          command: yarn test:lint:scss --format junit -o reports/junit/css-lint-results.xml
+
       # run tests!
       - run:
           name: "React tests"
