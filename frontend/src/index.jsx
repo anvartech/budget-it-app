@@ -1,5 +1,8 @@
+import bugsnag from 'bugsnag-js';
+
 import React from 'react';
 import { hydrate, render } from 'react-dom';
+import createPlugin from 'bugsnag-react';
 
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -13,18 +16,25 @@ import './index.css';
 
 const history = createBrowserHistory();
 
+const bugsnagClient = bugsnag(process.env.BUGSNAG_API);
 
-const rootElement = document.getElementById("root");
-const toRender = (<Router history={history}>
-    <Provider store={store}>
+const ErrorBoundary = bugsnagClient.use(createPlugin(React));
+
+const rootElement = document.getElementById('root');
+const toRender = (
+  <ErrorBoundary>
+    <Router history={history}>
+      <Provider store={store}>
         <App />
-    </Provider>
-</Router>);
+      </Provider>
+    </Router>
+  </ErrorBoundary>
+);
 
 if (rootElement.hasChildNodes()) {
-    hydrate(toRender, rootElement);
+  hydrate(toRender, rootElement);
 } else {
-    render(toRender, rootElement);
+  render(toRender, rootElement);
 }
 // ReactDOM.render(
 //     ,
