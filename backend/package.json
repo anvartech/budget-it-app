@@ -1,0 +1,24 @@
+{
+  "name": "budget-it-app",
+  "version": "1.0.0",
+  "description": "An Application to help manage budget",
+  "main": "index.js",
+  "scripts": {
+    "test": "yarn test",
+    "start": "node src/index.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/anvartech/budget-it-app.git"
+  },
+  "author": "Anvar Tech",
+  "bugs": {
+    "url": "https://github.com/anvartech/budget-it-app/issues"
+  },
+  "homepage": "https://github.com/anvartech/budget-it-app#readme",
+  "dependencies": {
+    "@grpc/proto-loader": "^0.3.0",
+    "bugsnag": "^2.4.3",
+    "grpc": "^1.16.0"
+  }
+}
