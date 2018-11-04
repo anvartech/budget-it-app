@@ -23,7 +23,7 @@ message User {
 message Response {
     bool sendSuccess = 1;
     google.protobuf.Timestamp sentAt = 2;
-    repeated Error errors = 3;
+    Error errors = 3;
 }
 
 message Error {

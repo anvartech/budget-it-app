@@ -1,33 +1,19 @@
 package main
 
 import (
+	"fmt"
 	"log"
+	"net"
 	"os"
 
-	sp "github.com/SparkPost/gosparkpost"
+	pb "github.com/anvartech/budget-it-app/mailer/proto"
+	server "github.com/anvartech/budget-it-app/mailer/server"
+	helpers "github.com/anvartech/budget-it-app/mailer/shared"
 
 	bugsnag "github.com/bugsnag/bugsnag-go"
-	// pb "github.com/anvartech/budget-it-app/mailer/proto"
-	// "github.com/anvartech/budget-it-app/mailer/server"
+	"google.golang.org/grpc"
+	"google.golang.org/grpc/reflection"
 )
-
-// Emailclient should be available everywhere after initialisation
-var Emailclient sp.Client
-
-// SparkPostInit initialises Spark Post mailer - may be moved
-func SparkPostInit() error {
-	apiKey := os.Getenv("SPARKPOST_API_KEY")
-	cfg := &sp.Config{
-		BaseUrl:    "https://api.sparkpost.com",
-		ApiKey:     apiKey,
-		ApiVersion: 1,
-	}
-
-	err := Emailclient.Init(cfg)
-
-	return err
-
-}
 
 func main() {
 	// Get our API key from the environment; configure.
@@ -42,13 +28,22 @@ func main() {
 		},
 	})
 
-	err := SparkPostInit()
+	port := helpers.GetEnv("MAILER_PORT", "3081")
+
+	lis, err := net.Listen("tcp", fmt.Sprintf(":%s", port))
 
 	if err != nil {
+		log.Fatalf("failed to listen: %v", err)
 		bugsnag.Notify(err)
-		log.Fatalf("SparkPost client init failed: %s\n", err)
 	}
 
-	log.Printf("Evrything success\n\n")
+	grpcServer := grpc.NewServer()
 
+	pb.RegisterMailerServiceServer(grpcServer, &server.MailerServer{})
+
+	reflection.Register(grpcServer)
+
+	if err := grpcServer.Serve(lis); err != nil {
+		log.Fatalf("failed to serve: %v", err)
+	}
 }
