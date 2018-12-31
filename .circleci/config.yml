@@ -18,7 +18,7 @@ jobs:
 
       - run:
           name: "Install Dependencies"
-          command: npm install
+          command: yarn
 
       - run: mkdir -p reports/
 
@@ -26,14 +26,14 @@ jobs:
           paths:
             - node_modules
           key: v1-dependencies-{{ checksum "package.json" }}
-#       - run:
-#           name: "JavaScript Linter"
-#           command: npm run test:lint:js --format junit -o reports/junit/js-lint-results.xml
+      - run:
+          name: "JavaScript Linter"
+          command: yarn test:lint:js --format junit -o reports/junit/js-lint-results.xml
 
       # run tests!
       - run:
           name: "React tests"
-          command: npm run test --ci --testResultsProcessor="jest-junit" --coverage --reporters=jest-junit
+          command: yarn test --ci --testResultsProcessor="jest-junit" --coverage --reporters=jest-junit
           environment:
             JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
       - store_test_results:

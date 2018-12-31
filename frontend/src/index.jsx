@@ -1,9 +1,8 @@
-// import bugsnag from 'bugsnag-js';
-import bugsnagReact from '@bugsnag/plugin-react';
+import bugsnag from '@bugsnag/js';
 
 import React from 'react';
 import { hydrate, render } from 'react-dom';
-import createPlugin from 'bugsnag-react';
+import bugsnagReact from '@bugsnag/plugin-react';
 
 import { Router } from 'react-router-dom';
 import { Provider } from 'react-redux';
@@ -19,8 +18,8 @@ const history = createBrowserHistory();
 
 const bugsnagClient = bugsnag(process.env.BUGSNAG_API);
 
-bugsnagClient.use(bugsnagReact, React)
-// const ErrorBoundary = bugsnagClient.use(createPlugin(React));
+bugsnagClient.use(bugsnagReact, React);
+
 const ErrorBoundary = bugsnagClient.getPlugin('react');
 
 const rootElement = document.getElementById('root');
