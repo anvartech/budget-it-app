@@ -1,0 +1,47 @@
+version: 2
+jobs:
+  test-react:
+    docker:
+      - image: circleci/node:8.12
+
+    working_directory: ~/repo/frontend
+
+    steps:
+      - checkout:
+          path: ~/repo
+      # Download and cache dependencies
+      - restore_cache:
+          keys:
+          - v1-dependencies-{{ checksum "package.json" }}
+          # fallback to using the latest cache if no exact match is found
+          - v1-dependencies-
+
+      - run:
+          name: "Install Dependencies"
+          command: yarn
+
+      - run: mkdir -p reports/
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+      - run:
+          name: "JavaScript Linter"
+          command: yarn test:lint:js --format junit -o reports/junit/js-lint-results.xml
+
+      # run tests!
+      - run:
+          name: "React tests"
+          command: yarn test --ci --testResultsProcessor="jest-junit" --coverage --reporters=jest-junit
+          environment:
+            JEST_JUNIT_OUTPUT: "reports/junit/js-test-results.xml"
+      - store_test_results:
+          path: reports/junit
+      - store_artifacts:
+          path: reports/junit
+workflows:
+  version: 2
+  just-build:
+    jobs:
+      - test-react
