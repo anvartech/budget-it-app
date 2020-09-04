@@ -10,7 +10,7 @@
     "history": "^4.7.2",
     "immutable": "^3.8.2",
     "jest-junit": "^5.2.0",
-    "node-sass": "^4.9.4",
+    "node-sass": "^4.13.1",
     "react": "^16.7.0",
     "react-dom": "^16.7.0",
     "react-redux": "^5.0.7",
