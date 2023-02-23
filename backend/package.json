@@ -24,7 +24,7 @@
     "express": "^4.16.4",
     "express-session": "^1.15.6",
     "grpc": "^1.16.0",
-    "sequelize": "^5.15.1"
+    "sequelize": "^6.28.2"
   },
   "devDependencies": {
     "dotenv": "^6.1.0",
